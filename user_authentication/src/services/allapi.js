@@ -1,6 +1,6 @@
 import commonAPI from "./commonapi";
 
-const serverlink = 'http://localhost:3000'
+const serverlink = 'https://userbackend-q032.onrender.com'
 
 export const registerAPI = (data=>{
     return commonAPI('post',`${serverlink}/register`,data)

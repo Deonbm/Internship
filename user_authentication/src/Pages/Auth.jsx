@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { registerAPI, loginAPI } from "../services/allapi";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
 function Auth({ Registrationn }) {
@@ -47,6 +47,7 @@ function Auth({ Registrationn }) {
         alert("Registration Successful");
         setUser({ username: "", email: "", password: "" });
         setErrors({});
+        navigate('/login')
       } else if (out.response?.status === 406) {
         alert(out.response.data);
       }
@@ -74,7 +75,7 @@ function Auth({ Registrationn }) {
 
         setUser({ username: "", email: "", password: "" });
         setErrors({});
-        navigate('/')
+        navigate('/index')
       } else if (out.status === 404) {
         setErrors({ api: "Invalid email/password" });
       }
@@ -128,8 +129,10 @@ function Auth({ Registrationn }) {
             {errors.api && (
               <p className="text-red-500 text-sm text-center">{errors.api}</p>
             )}
+            
             {Registrationn ? (
-              <Button
+             <div>
+               <Button
                 variant="contained"
                 color="primary"
                 className="w-full py-2 rounded-lg"
@@ -137,8 +140,11 @@ function Auth({ Registrationn }) {
               >
                 Register
               </Button>
+              <p className="pt-2">Already signed up?<Link to={"/login"} className="text-amber-400"> Sign In</Link> Now</p>
+             </div>
             ) : (
-              <Button
+              <div>
+                <Button
                 variant="contained"
                 color="primary"
                 className="w-full py-2 rounded-lg"
@@ -146,6 +152,8 @@ function Auth({ Registrationn }) {
               >
                 Login
               </Button>
+              <p className="pt-2">You haven't signed up yet?<Link to={"/register"} className="text-amber-400"> Sign Up</Link> Now</p>
+              </div>
             )}
           </div>
         </CardContent>

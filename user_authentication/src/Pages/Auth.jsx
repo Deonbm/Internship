@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { registerAPI, loginAPI } from "../services/allapi";
 import {Link, useNavigate} from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 function Auth({ Registrationn }) {
@@ -44,12 +45,12 @@ function Auth({ Registrationn }) {
     try {
       const out = await registerAPI(user);
       if (out.status === 201) {
-        alert("Registration Successful");
+        toast.success("Registration Successful");
         setUser({ username: "", email: "", password: "" });
         setErrors({});
         navigate('/login')
       } else if (out.response?.status === 406) {
-        alert(out.response.data);
+        toast.warning(out.response.data);
       }
     } catch (error) {
       console.log(error);
@@ -65,7 +66,7 @@ function Auth({ Registrationn }) {
     try {
       const out = await loginAPI(user);
       if (out.status === 200) {
-        alert("Login Successful");
+        toast.success("Logined Successfully");
         // ✅ Save user + token in sessionStorage
         sessionStorage.setItem("user", JSON.stringify(out.data.user));
         sessionStorage.setItem("token", out.data.token);
@@ -77,7 +78,8 @@ function Auth({ Registrationn }) {
         setErrors({});
         navigate('/index')
       } else if (out.status === 404) {
-        setErrors({ api: "Invalid email/password" });
+        setErrors({ api: out.response.data });
+        toast.error(out.response.data)
       }
     } catch (error) {
       console.log(error);
@@ -126,9 +128,7 @@ function Auth({ Registrationn }) {
               error={!!errors.password}
               helperText={errors.password}
             />
-            {errors.api && (
-              <p className="text-red-500 text-sm text-center">{errors.api}</p>
-            )}
+            
             
             {Registrationn ? (
              <div>

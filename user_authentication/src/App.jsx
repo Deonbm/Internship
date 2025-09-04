@@ -4,7 +4,7 @@ import Auth from './Pages/Auth'
 import { Route, Routes } from 'react-router-dom'
 import Home from './Pages/Home'
 import Index from './Pages/Index'
-
+import { ToastContainer } from 'react-toastify'
 
 
 function App() {
@@ -12,6 +12,10 @@ function App() {
 
   return (
     <>
+    <ToastContainer
+position="top-center"
+theme="colored"
+/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/register' element={<Auth Registrationn={true}/>}/>
